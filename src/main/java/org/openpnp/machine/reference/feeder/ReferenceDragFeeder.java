@@ -152,10 +152,8 @@ public class ReferenceDragFeeder extends ReferenceFeeder {
         Location feedStartLocation = this.feedStartLocation;
         Location feedEndLocation = this.feedEndLocation;
         pickLocation = this.location;
-        if (visionOffset != null) {
+        if (vision.isEnabled() && visionOffset != null) {
             feedStartLocation = feedStartLocation.subtract(visionOffset);
-            feedEndLocation = feedEndLocation.subtract(visionOffset);
-            pickLocation = pickLocation.subtract(visionOffset);
         }
 
         // Move the actuator to the feed start location.
@@ -185,6 +183,8 @@ public class ReferenceDragFeeder extends ReferenceFeeder {
             visionOffset = getVisionOffsets(head, location);
 
             Logger.debug("final visionOffsets " + visionOffset);
+
+            pickLocation = pickLocation.subtract(visionOffset);
         }
 
         Logger.debug("Modified pickLocation {}", pickLocation);
