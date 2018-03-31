@@ -40,7 +40,7 @@ public class ReferenceMachineConfigurationWizard extends AbstractConfigurationWi
     private JTextField discardYTf;
     private JTextField discardZTf;
     private JTextField discardCTf;
-    
+
     public ReferenceMachineConfigurationWizard(ReferenceMachine machine) {
         this.machine = machine;
 
@@ -51,14 +51,14 @@ public class ReferenceMachineConfigurationWizard extends AbstractConfigurationWi
         panelGeneral.setLayout(new FormLayout(
                 new ColumnSpec[] {FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
                         FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,},
-                new RowSpec[] {FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
-                		FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,}));
+				new RowSpec[] { FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+	FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,}));
         JLabel lblDriver = new JLabel("Driver");
         panelGeneral.add(lblDriver, "2, 2");
 
         comboBoxDriver = new JComboBox();
         panelGeneral.add(comboBoxDriver, "4, 2");
-        
+
         checkBoxHomeAfterEnabled = new JCheckBox("Home after ENABLED?");
         panelGeneral.add(checkBoxHomeAfterEnabled, "2, 4");
 

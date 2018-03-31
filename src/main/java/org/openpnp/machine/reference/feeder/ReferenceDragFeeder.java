@@ -284,7 +284,7 @@ public class ReferenceDragFeeder extends ReferenceFeeder {
     public String toString() {
         return String.format("ReferenceTapeFeeder id %s", id);
     }
-    
+
 	public void resetVisionOffsets() {
 		if (visionOffset != null) {
 			visionOffset = null;

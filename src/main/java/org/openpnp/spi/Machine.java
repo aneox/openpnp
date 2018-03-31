@@ -160,7 +160,7 @@ public interface Machine extends WizardConfigurable, PropertySheetHolder, Closea
     public <T> Future<T> submit(Callable<T> callable);
 
     public <T> Future<T> submit(final Callable<T> callable, final FutureCallback<T> callback);
-    
+
     public boolean isHomeAfterEnabled();
 
     /**

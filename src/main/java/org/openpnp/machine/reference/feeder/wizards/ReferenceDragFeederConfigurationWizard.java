@@ -284,7 +284,7 @@ public class ReferenceDragFeederConfigurationWizard
                         FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
                         FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,},
                 new RowSpec[] {
-                		FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+						FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
                         FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
                         FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
                         FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
@@ -329,7 +329,7 @@ public class ReferenceDragFeederConfigurationWizard
 
         cancelSelectTemplateImageAction.setEnabled(false);
         cancelSelectAoiAction.setEnabled(false);
-        
+
         btnResetVisionOffsets = new JButton("Reset offsets");
         btnResetVisionOffsets.setAction(resetVisionOffsets);
         panelAoE.add(btnResetVisionOffsets, "12, 10");
@@ -396,7 +396,7 @@ public class ReferenceDragFeederConfigurationWizard
         bind(UpdateStrategy.READ, feeder, "actuatorName", locationButtonsPanelFeedStart, "actuatorName");
         bind(UpdateStrategy.READ, feeder, "actuatorName", locationButtonsPanelFeedEnd, "actuatorName");
     }
-    
+
     @SuppressWarnings("serial")
     private Action selectTemplateImageAction = new AbstractAction("Select") {
         @Override
@@ -531,13 +531,13 @@ public class ReferenceDragFeederConfigurationWizard
             });
         }
     };
-    
+
     @SuppressWarnings("serial")
     private Action resetVisionOffsets = new AbstractAction("Reset vision offsets") {
         @Override
         public void actionPerformed(ActionEvent arg0) {
             UiUtils.messageBoxOnException(() -> {
-            		feeder.resetVisionOffsets();
+				feeder.resetVisionOffsets();
             });
         }
     };
