@@ -304,8 +304,6 @@ public abstract class ReferenceCamera extends AbstractCamera implements Referenc
     protected BufferedImage transformImage(BufferedImage image) {
         Mat mat = OpenCvUtils.toMat(image);
 
-        mat = crop(mat);
-
         mat = calibrate(mat);
 
         mat = undistort(mat);
@@ -314,6 +312,8 @@ public abstract class ReferenceCamera extends AbstractCamera implements Referenc
         mat = scale(mat, scaleWidth, scaleHeight);
         
         mat = rotate(mat, rotation);
+        
+        mat = crop(mat); //crop after rotate gives rect vert aligned nice image, instead of rotated rect if we crop before rotation
 
         mat = offset(mat, offsetX, offsetY);
         
