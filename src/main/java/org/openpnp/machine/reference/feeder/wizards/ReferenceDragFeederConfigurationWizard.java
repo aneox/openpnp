@@ -106,6 +106,7 @@ public class ReferenceDragFeederConfigurationWizard
     private JButton btnCancelChangeAoi;
     private JPanel panel;
     private JButton btnCancelChangeTemplateImage;
+    private JButton btnResetVisionOffsets;
 
     public ReferenceDragFeederConfigurationWizard(ReferenceDragFeeder feeder) {
         super(feeder);
@@ -282,8 +283,13 @@ public class ReferenceDragFeederConfigurationWizard
                         FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
                         FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
                         FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,},
-                new RowSpec[] {FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
-                        FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,}));
+                new RowSpec[] {
+                		FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+                        FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+                        FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+                        FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+                        FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
+                        }));
 
         lblX_1 = new JLabel("X");
         panelAoE.add(lblX_1, "2, 2");
@@ -323,6 +329,10 @@ public class ReferenceDragFeederConfigurationWizard
 
         cancelSelectTemplateImageAction.setEnabled(false);
         cancelSelectAoiAction.setEnabled(false);
+        
+        btnResetVisionOffsets = new JButton("Reset offsets");
+        btnResetVisionOffsets.setAction(resetVisionOffsets);
+        panelAoE.add(btnResetVisionOffsets, "12, 10");
 
         contentPanel.add(panelFields);
     }
@@ -386,7 +396,7 @@ public class ReferenceDragFeederConfigurationWizard
         bind(UpdateStrategy.READ, feeder, "actuatorName", locationButtonsPanelFeedStart, "actuatorName");
         bind(UpdateStrategy.READ, feeder, "actuatorName", locationButtonsPanelFeedEnd, "actuatorName");
     }
-
+    
     @SuppressWarnings("serial")
     private Action selectTemplateImageAction = new AbstractAction("Select") {
         @Override
@@ -518,6 +528,16 @@ public class ReferenceDragFeederConfigurationWizard
                 btnChangeAoi.setAction(selectAoiAction);
                 cancelSelectAoiAction.setEnabled(false);
                 cameraView.setSelectionEnabled(false);
+            });
+        }
+    };
+    
+    @SuppressWarnings("serial")
+    private Action resetVisionOffsets = new AbstractAction("Reset vision offsets") {
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+            UiUtils.messageBoxOnException(() -> {
+            		feeder.resetVisionOffsets();
             });
         }
     };
