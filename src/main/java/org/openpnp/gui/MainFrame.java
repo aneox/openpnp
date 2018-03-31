@@ -912,10 +912,6 @@ public class MainFrame extends JFrame {
     };
 
     private Action saveConfigAction = new AbstractAction("Save configuration") {
-        {
-            putValue(MNEMONIC_KEY, KeyEvent.VK_S);
-        }
-
         @Override
         public void actionPerformed(ActionEvent arg0) {
 			saveConfig();
