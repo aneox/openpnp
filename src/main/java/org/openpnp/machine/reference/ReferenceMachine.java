@@ -85,6 +85,9 @@ public class ReferenceMachine extends AbstractMachine {
 
     @Element(required = false)
     protected FiducialLocator fiducialLocator = new ReferenceFiducialLocator();
+    
+    @Element(required = false)
+    private boolean homeAfterEnabled = false;
 
     private boolean enabled;
 
@@ -297,5 +300,13 @@ public class ReferenceMachine extends AbstractMachine {
     @Override
     public PasteDispenseJobProcessor getPasteDispenseJobProcessor() {
         return pasteDispenseJobProcessor;
+    }
+    
+    public boolean isHomeAfterEnabled() {
+        return homeAfterEnabled;
+    }
+
+    public void setHomeAfterEnabled(boolean newHomeAfterEnabled) {
+        this.homeAfterEnabled = newHomeAfterEnabled;
     }
 }

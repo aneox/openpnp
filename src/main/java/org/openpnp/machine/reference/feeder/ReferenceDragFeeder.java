@@ -154,6 +154,7 @@ public class ReferenceDragFeeder extends ReferenceFeeder {
         pickLocation = this.location;
         if (vision.isEnabled() && visionOffset != null) {
             feedStartLocation = feedStartLocation.subtract(visionOffset);
+            Logger.debug("Drag distance: " + feedStartLocation.subtract(feedEndLocation));
         }
 
         // Move the actuator to the feed start location.

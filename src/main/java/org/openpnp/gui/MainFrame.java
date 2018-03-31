@@ -232,6 +232,8 @@ public class MainFrame extends JFrame {
         mnFile.addSeparator();
         mnFile.add(new JMenuItem(jobPanel.saveJobAction));
         mnFile.add(new JMenuItem(jobPanel.saveJobAsAction));
+        mnFile.addSeparator();
+        mnFile.add(new JMenuItem(saveConfigAction));
 
 
         // File -> Import
@@ -699,6 +701,28 @@ public class MainFrame extends JFrame {
         dialog.setModal(true);
         dialog.setVisible(true);
     }
+    
+    public boolean saveConfig() {
+        // Save the configuration
+        try {
+            configuration.save();            
+        }
+        catch (Exception e) {
+            String message = "There was a problem saving the configuration. The reason was:\n\n"
+                    + e.getMessage() + "\n\nDo you want to quit without saving?";
+            message = message.replaceAll("\n", "<br/>");
+            message = message.replaceAll("\r", "");
+            message = "<html><body width=\"400\">" + message + "</body></html>";
+            int result = JOptionPane.showConfirmDialog(this, message, "Configuration Save Error",
+                    JOptionPane.YES_NO_OPTION);
+            if (result != JOptionPane.YES_OPTION) {
+                return false;
+            }
+        }
+        
+        Logger.debug("Config saved successfully!");
+        return true;
+    }
 
     public boolean quit() {
         Logger.info("Shutting down...");
@@ -813,6 +837,17 @@ public class MainFrame extends JFrame {
             }
             MessageBoxes.infoBox("Windows Style Changed",
                     "Window style has been changed. Please restart OpenPnP to see the changes.");
+        }
+    };
+    
+    private Action saveConfigAction = new AbstractAction("Save configuration") {
+        {
+            putValue(MNEMONIC_KEY, KeyEvent.VK_S);
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent arg0) {
+        		saveConfig();
         }
     };
 
