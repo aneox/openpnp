@@ -56,6 +56,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRootPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
@@ -754,16 +755,13 @@ public class MainFrame extends JFrame {
             configuration.save();
         }
         catch (Exception e) {
-            String message = "There was a problem saving the configuration. The reason was:\n\n"
-                    + e.getMessage() + "\n\nDo you want to quit without saving?";
-            message = message.replaceAll("\n", "<br/>");
-            message = message.replaceAll("\r", "");
-            message = "<html><body width=\"400\">" + message + "</body></html>";
-            int result = JOptionPane.showConfirmDialog(this, message, "Configuration Save Error",
-                    JOptionPane.YES_NO_OPTION);
-            if (result != JOptionPane.YES_OPTION) {
-                return false;
-            }
+			String message = "There was a problem saving the configuration. The reason was:\n\n" + e.getMessage()
+					+ "\n\n";
+			message = message.replaceAll("\n", "<br/>");
+			message = message.replaceAll("\r", "");
+			message = "<html><body width=\"400\">" + message + "</body></html>";
+			JOptionPane.showMessageDialog(this, message, "Configuration Save Error", JOptionPane.ERROR_MESSAGE);
+			return false;
         }
 
         Logger.debug("Config saved successfully!");
