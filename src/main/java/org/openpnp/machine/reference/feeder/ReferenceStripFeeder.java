@@ -43,7 +43,6 @@ import org.openpnp.util.Utils2D;
 import org.openpnp.util.VisionUtils;
 import org.openpnp.vision.pipeline.CvPipeline;
 import org.openpnp.vision.pipeline.CvStage;
-import org.pmw.tinylog.Logger;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 
@@ -200,7 +199,6 @@ public class ReferenceStripFeeder extends ReferenceFeeder {
         // Add in the angle of the tape plus the angle of the part in the tape
         // so that the part is picked at the right angle
         l = l.derive(null, null, null, getLocation().getRotation() - angleCorrection);
-        Logger.debug("STRIP ROTATE CORRECTION DEBUG: " + "angleOfStrip:" + angleOfStrip + " angleCorrection:" + angleCorrection + " final:" + l.getRotation());
         // and if vision was performed, add the offsets
         if (visionEnabled && visionOffsets != null) {
             l = l.add(visionOffsets);
