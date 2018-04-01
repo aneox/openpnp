@@ -99,6 +99,10 @@ public class ReferenceDragFeeder extends ReferenceFeeder {
         if (pickLocation == null) {
             pickLocation = location;
         }
+
+        if (vision.isEnabled() && visionOffset != null)
+			return pickLocation.subtract(visionOffset);
+
         return pickLocation;
     }
 
@@ -185,10 +189,8 @@ public class ReferenceDragFeeder extends ReferenceFeeder {
 
             Logger.debug("final visionOffsets " + visionOffset);
 
-            pickLocation = pickLocation.subtract(visionOffset);
+            Logger.debug("Modified pickLocation {}", pickLocation.subtract(visionOffset));
         }
-
-        Logger.debug("Modified pickLocation {}", pickLocation);
     }
 
     // TODO: Throw an Exception if vision fails.

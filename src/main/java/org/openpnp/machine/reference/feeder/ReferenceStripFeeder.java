@@ -180,9 +180,18 @@ public class ReferenceStripFeeder extends ReferenceFeeder {
         Point p = new Point(x.getValue(), y.getValue());
         // Determine the angle that the tape is at
         double angleOfStrip = Utils2D.getAngleFromPoint(lineLocations[0], lineLocations[1]);
-        double angleCorrection = angleOfStrip % 90;
-        if (angleCorrection > 45)
+		double angleCorrection = 0;
+
+		if (angleOfStrip > 90)
+			angleCorrection = angleOfStrip % 90;
+		else
+			angleCorrection = angleOfStrip;
+
+		if (angleCorrection > 45)
 			angleCorrection = 90 - angleCorrection;
+		else
+			angleCorrection *= -1;
+
         // Rotate the part offsets by the angle to move it into the right
         // coordinate space
         p = Utils2D.rotatePoint(p, angleOfStrip);
