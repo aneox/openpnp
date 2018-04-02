@@ -144,7 +144,7 @@ public class ReferenceDragFeederConfigurationWizard
         textFieldActuatorId = new JTextField();
         panelGeneral.add(textFieldActuatorId, "4, 4");
         textFieldActuatorId.setColumns(5);
-        
+
         lblPeelOffActuatorId = new JLabel("Peel Off Actuator Name");
         panelGeneral.add(lblPeelOffActuatorId, "6, 4, right, default");
 

@@ -141,15 +141,15 @@ public class ReferenceDragFeeder extends ReferenceFeeder {
             throw new Exception(String.format("No Actuator found with name %s on feed Head %s",
                     actuatorName, head.getName()));
         }
-        
+
 		Actuator peelOffActuator = null;
 
 		if (peelOffActuatorName != null) {
 			peelOffActuator = head.getActuatorByName(peelOffActuatorName);
-			
+
 	        if (peelOffActuator == null) {
 	            throw new Exception(String.format("No Actuator found with name %s on feed Head %s",
-	            		peelOffActuatorName, head.getName()));
+						peelOffActuatorName, head.getName()));
 	        }
 		}
 
@@ -178,23 +178,23 @@ public class ReferenceDragFeeder extends ReferenceFeeder {
         // here and then discarded.
         pickLocation = this.location;
         
-        if (feededCount == 0) {        
+        if (feededCount == 0) {
             Location feedStartLocation = this.feedStartLocation;
             Location feedEndLocation = this.feedEndLocation;
 	        if (vision.isEnabled() && visionOffset != null) {
-	            feedStartLocation = feedStartLocation.subtract(visionOffset);     	            			
+	            feedStartLocation = feedStartLocation.subtract(visionOffset);
 	            Logger.debug("New drag distance with visionOffset " + feedStartLocation.subtract(feedEndLocation));
 	        }
-        
+
 	        // Move the actuator to the feed start location.
 	        actuator.moveTo(feedStartLocation.derive(null, null, Double.NaN, Double.NaN));
-	
+
 	        // extend the pin
 	        actuator.actuate(true);
-	
+
 	        // insert the pin
 	        actuator.moveTo(feedStartLocation);
-	
+
 	        // drag the tape
 	        actuator.moveTo(feedEndLocation, feedSpeed * actuator.getHead().getMachine().getSpeed());
 
@@ -213,14 +213,14 @@ public class ReferenceDragFeeder extends ReferenceFeeder {
 	        // retract the pin
 	        actuator.actuate(false);
 
-	        // can change it to "feededCount = parts_count_userSettings;"
 	        if (this.isPart_0402() == true) {
-	        		feededCount = 2;
+				// can change it to "feededCount = parts_count_userSettings;"
+				feededCount = 2;
 	        }
         } else
-        		Logger.debug("Multi parts drag feeder: skipping drag " + feededCount);
-        
-        
+			Logger.debug("Multi parts drag feeder: skipping drag " + feededCount);
+
+
         head.moveToSafeZ();
 
         if (vision.isEnabled()) {
@@ -234,7 +234,7 @@ public class ReferenceDragFeeder extends ReferenceFeeder {
 				} else
 					partPitch = null;
 			}
-            
+
             Logger.debug("final visionOffsets " + visionOffset);
 
             Logger.debug("Modified pickLocation {}", pickLocation.subtract(visionOffset));
@@ -340,7 +340,7 @@ public class ReferenceDragFeeder extends ReferenceFeeder {
 			visionOffset = null;
 			Logger.debug("resetVisionOffsets " + visionOffset);
 		}
-		
+
 		partPitch = null;
 	}
 
