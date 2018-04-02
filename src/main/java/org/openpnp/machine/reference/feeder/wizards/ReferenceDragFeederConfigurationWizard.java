@@ -80,7 +80,10 @@ public class ReferenceDragFeederConfigurationWizard
     private JTextField textFieldFeedEndZ;
     private JTextField textFieldFeedRate;
     private JLabel lblActuatorId;
+    private JLabel lblPeelOffActuatorId;
+    private JLabel lbl0402PartDetected;
     private JTextField textFieldActuatorId;
+    private JTextField textFieldPeelOffActuatorId;
     private JPanel panelGeneral;
     private JPanel panelVision;
     private JPanel panelLocations;
@@ -122,6 +125,8 @@ public class ReferenceDragFeederConfigurationWizard
         panelFields.add(panelGeneral);
         panelGeneral.setLayout(new FormLayout(
                 new ColumnSpec[] {FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
+                        FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
+                        FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
                         FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,},
                 new RowSpec[] {FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
                         FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,}));
@@ -139,6 +144,18 @@ public class ReferenceDragFeederConfigurationWizard
         textFieldActuatorId = new JTextField();
         panelGeneral.add(textFieldActuatorId, "4, 4");
         textFieldActuatorId.setColumns(5);
+        
+        lblPeelOffActuatorId = new JLabel("Peel Off Actuator Name");
+        panelGeneral.add(lblPeelOffActuatorId, "6, 4, right, default");
+
+        textFieldPeelOffActuatorId = new JTextField();
+        panelGeneral.add(textFieldPeelOffActuatorId, "8, 4");
+        textFieldPeelOffActuatorId.setColumns(5);
+
+        if (feeder.isPart_0402()) {
+	        lbl0402PartDetected = new JLabel("0402 Part DETECTED");
+	        panelGeneral.add(lbl0402PartDetected, "6, 2");
+        }
 
         panelLocations = new JPanel();
         panelFields.add(panelLocations);
@@ -349,6 +366,7 @@ public class ReferenceDragFeederConfigurationWizard
 
         addWrappedBinding(feeder, "feedSpeed", textFieldFeedRate, "text", percentConverter);
         addWrappedBinding(feeder, "actuatorName", textFieldActuatorId, "text");
+        addWrappedBinding(feeder, "peelOffActuatorName", textFieldPeelOffActuatorId, "text");
 
         MutableLocationProxy feedStartLocation = new MutableLocationProxy();
         bind(UpdateStrategy.READ_WRITE, feeder, "feedStartLocation", feedStartLocation, "location");
@@ -381,6 +399,7 @@ public class ReferenceDragFeederConfigurationWizard
 
         ComponentDecorators.decorateWithAutoSelectAndLengthConversion(textFieldFeedRate);
         ComponentDecorators.decorateWithAutoSelect(textFieldActuatorId);
+        ComponentDecorators.decorateWithAutoSelect(textFieldPeelOffActuatorId);
         ComponentDecorators.decorateWithAutoSelectAndLengthConversion(textFieldFeedStartX);
         ComponentDecorators.decorateWithAutoSelectAndLengthConversion(textFieldFeedStartY);
         ComponentDecorators.decorateWithAutoSelectAndLengthConversion(textFieldFeedStartZ);

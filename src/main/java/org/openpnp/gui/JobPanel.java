@@ -245,7 +245,9 @@ public class JobPanel extends JPanel {
                 	updatePanelizationIconState();
                 	
                 }
-
+				BoardLocation boardLocation = getSelectedBoardLocation();
+				if (boardLocation != null)
+					jobPlacementsPanel.setBoardLocation(boardLocation);
             }
         });
 
