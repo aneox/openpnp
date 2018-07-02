@@ -179,31 +179,31 @@ public class ReferenceStripFeeder extends ReferenceFeeder {
         Length x = getHoleToPartLateral().convertToUnits(l.getUnits());
         Length y = referenceHoleToPartLinear.convertToUnits(l.getUnits());
         Point p = new Point(x.getValue(), y.getValue());
-        
+
 		Machine machine = Configuration.get().getMachine();
-		
-		if (machine.getUsePickRotationInsteadOfRotationInTapeForStripFeeders()) {	
-			
+
+		if (machine.getUsePickRotationInsteadOfRotationInTapeForStripFeeders()) {
+
 			double angleCorrection = 0;
-			double angleOfStrip = Utils2D.getAngleFromPoint(lineLocations[0], lineLocations[1]);		
-	
+			double angleOfStrip = Utils2D.getAngleFromPoint(lineLocations[0], lineLocations[1]);
+
 			if (angleOfStrip > 90)
 				angleCorrection = angleOfStrip % 90;
 			else
 				angleCorrection = angleOfStrip;
-	
+
 			if (angleCorrection > 45)
 				angleCorrection = 90 - angleCorrection;
 			else
 				angleCorrection *= -1;
-	
+
 	        // Rotate the part
 	        p = Utils2D.rotatePoint(p, angleOfStrip);
 	        l = l.add(new Location(l.getUnits(), p.x, p.y, 0, 0));
-	        l = l.derive(null, null, null, getLocation().getRotation() - angleCorrection);    
-	        
+	        l = l.derive(null, null, null, getLocation().getRotation() - angleCorrection);
+
 		} else {
-			
+
 			// Determine the angle that the tape is at
 			double angle = Utils2D.getAngleFromPoint(lineLocations[0], lineLocations[1]);
 			// Rotate the part offsets by the angle to move it into the right
@@ -214,9 +214,9 @@ public class ReferenceStripFeeder extends ReferenceFeeder {
 	        // Add in the angle of the tape plus the angle of the part in the tape
 	        // so that the part is picked at the right angle
 	        l = l.derive(null, null, null, angle + getLocation().getRotation()); 
-	        
+
 		}
-		
+
         // and if vision was performed, add the offsets
         if (visionEnabled && visionOffsets != null) {
             l = l.add(visionOffsets);

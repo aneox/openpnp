@@ -251,7 +251,7 @@ public class JobPanel extends JPanel {
 					jobPlacementsPanel.setBoardLocation(boardLocation);
                 }
                 else
-                		jobPlacementsPanel.setBoardLocation(null);
+                    jobPlacementsPanel.setBoardLocation(null);
             }
         });
 

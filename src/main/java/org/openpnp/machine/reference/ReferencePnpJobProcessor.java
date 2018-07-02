@@ -427,11 +427,11 @@ public class ReferencePnpJobProcessor extends AbstractPnpJobProcessor {
         fireTextStatus("Planning placements.");
 
         // Get the list of unfinished placements and sort them by part height.
-        
+
         List<JobPlacement> jobPlacements = getPendingJobPlacements().stream()
                 .sorted(Comparator.comparing(JobPlacement::getPartId))
                 .collect(Collectors.toList());
-        
+
         if (jobPlacements.isEmpty()) {
             return;
         }
@@ -789,7 +789,7 @@ public class ReferencePnpJobProcessor extends AbstractPnpJobProcessor {
 	        }
             
             Logger.debug("Place {} with {}", part, nozzle.getName());
-            
+
             File file = job.getFile();
             Configuration.get().saveJob(job, file);
             Configuration.get().save();

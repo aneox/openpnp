@@ -177,7 +177,7 @@ public class ReferenceDragFeeder extends ReferenceFeeder {
         // for the pick operation while feed start and end are used
         // here and then discarded.
         pickLocation = this.location;
-        
+
         if (feededCount == 0) {
             Location feedStartLocation = this.feedStartLocation;
             Location feedEndLocation = this.feedEndLocation;

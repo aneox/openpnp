@@ -33,7 +33,7 @@ public interface PnpJobProcessor extends JobProcessor {
             return placement.getPart().getHeight().convertToUnits(LengthUnit.Millimeters)
                     .getValue();
         }
-        
+
         public String getPartId() {
             return placement.getPart().getId();
         }
