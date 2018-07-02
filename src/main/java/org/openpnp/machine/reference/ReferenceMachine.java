@@ -89,6 +89,9 @@ public class ReferenceMachine extends AbstractMachine {
     @Element(required = false)
     private boolean homeAfterEnabled = false;
 
+    @Element(required = false)
+    private boolean usePickRotationInsteadOfRotationInTapeForStripFeeders = false;
+
     private boolean enabled;
 
     private List<Class<? extends Feeder>> registeredFeederClasses = new ArrayList<>();
@@ -302,11 +305,19 @@ public class ReferenceMachine extends AbstractMachine {
         return pasteDispenseJobProcessor;
     }
 
-    public boolean isHomeAfterEnabled() {
+    public boolean getHomeAfterEnabled() {
         return homeAfterEnabled;
     }
 
-    public void setHomeAfterEnabled(boolean newHomeAfterEnabled) {
-        this.homeAfterEnabled = newHomeAfterEnabled;
+    public boolean getUsePickRotationInsteadOfRotationInTapeForStripFeeders() {
+        return usePickRotationInsteadOfRotationInTapeForStripFeeders;
+    }
+
+    public void setHomeAfterEnabled(boolean newValue) {
+        this.homeAfterEnabled = newValue;
+    }
+
+    public void setUsePickRotationInsteadOfRotationInTapeForStripFeeders(boolean newValue) {
+        this.usePickRotationInsteadOfRotationInTapeForStripFeeders = newValue;
     }
 }

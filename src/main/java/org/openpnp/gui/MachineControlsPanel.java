@@ -270,7 +270,7 @@ public class MachineControlsPanel extends JPanel {
                 try {
 					Configuration.get().getMachine().setEnabled(enable);
 					setEnabled(true);
-					if (machine.isHomeAfterEnabled() && machine.isEnabled()) {
+					if (machine.getHomeAfterEnabled() && machine.isEnabled()) {
 						selectedTool.getHead().home();
 					}
                 }
