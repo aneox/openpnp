@@ -813,11 +813,9 @@ public class JobPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent arg0) {
             if (!checkJobStopped()) {
-            		Logger.debug("!checkJobStopped()");
                 return;
             }
             if (!checkForModifications()) {
-            		Logger.debug("!checkForModifications()");
                 return;
             }
             setJob(new Job());
