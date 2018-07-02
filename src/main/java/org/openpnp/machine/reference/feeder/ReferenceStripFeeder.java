@@ -213,7 +213,7 @@ public class ReferenceStripFeeder extends ReferenceFeeder {
 	        l = l.add(new Location(l.getUnits(), p.x, p.y, 0, 0));
 	        // Add in the angle of the tape plus the angle of the part in the tape
 	        // so that the part is picked at the right angle
-	        l = l.derive(null, null, null, angle + getLocation().getRotation()); 
+	        l = l.derive(null, null, null, angle + getLocation().getRotation());
 
 		}
 
