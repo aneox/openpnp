@@ -95,6 +95,7 @@ import org.openpnp.spi.MachineListener;
 import org.openpnp.util.FiniteStateMachine;
 import org.openpnp.util.MovableUtils;
 import org.openpnp.util.UiUtils;
+import org.pmw.tinylog.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
@@ -245,9 +246,12 @@ public class JobPanel extends JPanel {
                 	updatePanelizationIconState();
                 	
                 }
-				BoardLocation boardLocation = getSelectedBoardLocation();
-				if (boardLocation != null)
+                if (job.getBoardLocations().size() > 0) {
+                		BoardLocation boardLocation = getSelectedBoardLocation();				
 					jobPlacementsPanel.setBoardLocation(boardLocation);
+                }
+                else
+                		jobPlacementsPanel.setBoardLocation(null);
             }
         });
 
@@ -809,9 +813,11 @@ public class JobPanel extends JPanel {
         @Override
         public void actionPerformed(ActionEvent arg0) {
             if (!checkJobStopped()) {
+            		Logger.debug("!checkJobStopped()");
                 return;
             }
             if (!checkForModifications()) {
+            		Logger.debug("!checkForModifications()");
                 return;
             }
             setJob(new Job());
