@@ -71,6 +71,7 @@ import org.openpnp.model.LengthUnit;
 import org.openpnp.model.Location;
 import org.openpnp.model.Part;
 import org.openpnp.spi.Camera;
+import org.openpnp.spi.Machine;
 import org.openpnp.util.HslColor;
 import org.openpnp.util.OpenCvUtils;
 import org.openpnp.util.UiUtils;
@@ -116,6 +117,7 @@ public class ReferenceStripFeederConfigurationWizard extends AbstractConfigurati
     private JLabel lblTapeType;
     private JComboBox comboBoxTapeType;
     private JLabel lblRotationInTape;
+    private JCheckBox checkBoxUsePickRotationInsteadOfRotationInTapeForStripFeeders;
     private JTextField textFieldLocationRotation;
     private JButton btnAutoSetup;
     private JCheckBox chckbxUseVision;
@@ -141,6 +143,7 @@ public class ReferenceStripFeederConfigurationWizard extends AbstractConfigurati
         contentPanel.add(panelPart);
         panelPart.setLayout(new FormLayout(
                 new ColumnSpec[] {FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
+                        FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
                         FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,},
                 new RowSpec[] {FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
                         FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
@@ -166,6 +169,9 @@ public class ReferenceStripFeederConfigurationWizard extends AbstractConfigurati
         textFieldLocationRotation = new JTextField();
         panelPart.add(textFieldLocationRotation, "4, 4, fill, default");
         textFieldLocationRotation.setColumns(4);
+
+        checkBoxUsePickRotationInsteadOfRotationInTapeForStripFeeders = new JCheckBox("Use 'Pick Rotation' approach, instead of 'Rotation in tape', for Strip Feeders?");
+        panelPart.add(checkBoxUsePickRotationInsteadOfRotationInTapeForStripFeeders, "6, 4");
 
         lblRetryCount = new JLabel("Retry Count");
         panelPart.add(lblRetryCount, "2, 6, right, default");
@@ -338,9 +344,12 @@ public class ReferenceStripFeederConfigurationWizard extends AbstractConfigurati
         DoubleConverter doubleConverter = new DoubleConverter(Configuration.get()
                                                                            .getLengthDisplayFormat());
 
+        Machine machine = Configuration.get().getMachine();
+
         MutableLocationProxy location = new MutableLocationProxy();
         bind(UpdateStrategy.READ_WRITE, feeder, "location", location, "location");
         addWrappedBinding(location, "rotation", textFieldLocationRotation, "text", doubleConverter);
+        addWrappedBinding(machine, "usePickRotationInsteadOfRotationInTapeForStripFeeders", checkBoxUsePickRotationInsteadOfRotationInTapeForStripFeeders, "selected");
 
         addWrappedBinding(feeder, "part", comboBoxPart, "selectedItem");
         addWrappedBinding(feeder, "retryCount", retryCountTf, "text", intConverter);
