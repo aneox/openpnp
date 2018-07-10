@@ -35,7 +35,10 @@ public class ReferenceMachineConfigurationWizard extends AbstractConfigurationWi
 	private final ReferenceMachine machine;
     private JComboBox comboBoxDriver;
     private JCheckBox checkBoxHomeAfterEnabled;
+<<<<<<< HEAD
     private JCheckBox checkBoxUsePickRotationInsteadOfRotationInTapeForStripFeeders;
+=======
+>>>>>>> develop
     private String driverClassName;
     private JTextField discardXTf;
     private JTextField discardYTf;
@@ -49,6 +52,7 @@ public class ReferenceMachineConfigurationWizard extends AbstractConfigurationWi
         contentPanel.add(panelGeneral);
         panelGeneral.setBorder(new TitledBorder(null, "General", TitledBorder.LEADING,
                 TitledBorder.TOP, null, null));
+<<<<<<< HEAD
         panelGeneral.setLayout(new FormLayout(
                 new ColumnSpec[] {FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,
                         FormSpecs.RELATED_GAP_COLSPEC, FormSpecs.DEFAULT_COLSPEC,},
@@ -56,6 +60,20 @@ public class ReferenceMachineConfigurationWizard extends AbstractConfigurationWi
 						FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
 						FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
 	FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,}));
+=======
+        panelGeneral.setLayout(new FormLayout(new ColumnSpec[] {
+                FormSpecs.RELATED_GAP_COLSPEC,
+                FormSpecs.DEFAULT_COLSPEC,
+                FormSpecs.RELATED_GAP_COLSPEC,
+                FormSpecs.DEFAULT_COLSPEC,},
+            new RowSpec[] {
+                FormSpecs.RELATED_GAP_ROWSPEC,
+                FormSpecs.DEFAULT_ROWSPEC,
+                FormSpecs.RELATED_GAP_ROWSPEC,
+                FormSpecs.DEFAULT_ROWSPEC,
+                FormSpecs.RELATED_GAP_ROWSPEC,
+                FormSpecs.DEFAULT_ROWSPEC,}));
+>>>>>>> develop
         JLabel lblDriver = new JLabel("Driver");
         panelGeneral.add(lblDriver, "2, 2");
 
@@ -64,9 +82,12 @@ public class ReferenceMachineConfigurationWizard extends AbstractConfigurationWi
 
         checkBoxHomeAfterEnabled = new JCheckBox("Home after ENABLED?");
         panelGeneral.add(checkBoxHomeAfterEnabled, "2, 6");
+<<<<<<< HEAD
 
         checkBoxUsePickRotationInsteadOfRotationInTapeForStripFeeders = new JCheckBox("Use 'Pick Rotation' approach, instead of 'Rotation in tape', for Strip Feeders?");
         panelGeneral.add(checkBoxUsePickRotationInsteadOfRotationInTapeForStripFeeders, "2, 8");
+=======
+>>>>>>> develop
 
         comboBoxDriver.addItem(NullDriver.class.getCanonicalName());
         comboBoxDriver.addItem(GcodeDriver.class.getCanonicalName());
@@ -137,7 +158,10 @@ public class ReferenceMachineConfigurationWizard extends AbstractConfigurationWi
 
         addWrappedBinding(this, "driverClassName", comboBoxDriver, "selectedItem");
         addWrappedBinding(machine, "homeAfterEnabled", checkBoxHomeAfterEnabled, "selected");
+<<<<<<< HEAD
         addWrappedBinding(machine, "usePickRotationInsteadOfRotationInTapeForStripFeeders", checkBoxUsePickRotationInsteadOfRotationInTapeForStripFeeders, "selected");
+=======
+>>>>>>> develop
 
         MutableLocationProxy discardLocation = new MutableLocationProxy();
         bind(UpdateStrategy.READ_WRITE, machine, "discardLocation", discardLocation, "location");

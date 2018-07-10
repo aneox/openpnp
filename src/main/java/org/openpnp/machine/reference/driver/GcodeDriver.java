@@ -62,6 +62,7 @@ public class GcodeDriver extends AbstractSerialPortDriver implements Named, Runn
         DISABLE_COMMAND,
         POST_VISION_HOME_COMMAND,
         HOME_COMMAND("Id", "Name"),
+        HOME_COMPLETE_REGEX(true),
         PUMP_ON_COMMAND,
         PUMP_OFF_COMMAND,
         MOVE_TO_COMMAND(true, "Id", "Name", "FeedRate", "X", "Y", "Z", "Rotation"),
@@ -285,10 +286,68 @@ public class GcodeDriver extends AbstractSerialPortDriver implements Named, Runn
         String command = getCommand(null, CommandType.HOME_COMMAND);
         command = substituteVariable(command, "Id", head.getId());
         command = substituteVariable(command, "Name", head.getName());
-        sendGcode(command, -1);
+        long timeout = -1;
+        List<String> responses = sendGcode(command, timeout);
 
+        // Check home complete response against user's regex
+        String homeCompleteRegex = getCommand(null, CommandType.HOME_COMPLETE_REGEX);
+        if (homeCompleteRegex != null) {
+            if (timeout == -1) {
+                timeout = Long.MAX_VALUE;
+            }
+            if (!containsMatch(responses, homeCompleteRegex)) {
+                long t = System.currentTimeMillis();
+                boolean done = false;
+                while (!done && System.currentTimeMillis() - t < timeout) {
+                    done = containsMatch(sendCommand(null, 250), homeCompleteRegex);
+                }
+                if (!done) {
+                    // Should never get here but just in case.
+                    throw new Exception("Timed out waiting for home to complete.");
+                }
+            }
+        }
+
+
+
+        // We need to specially handle X and Y axes to support the non-squareness factor.
+        Axis xAxis = null;
+        Axis yAxis = null;
+        double xHomeCoordinateNonSquare = 0;
+        double yHomeCoordinate = 0;
         for (Axis axis : axes) {
-            axis.setCoordinate(axis.getHomeCoordinate());
+            if (axis.getType() == Axis.Type.X) {
+                xAxis = axis;
+                xHomeCoordinateNonSquare = axis.getHomeCoordinate();
+            }
+            if (axis.getType() == Axis.Type.Y) {
+                yAxis = axis;
+                yHomeCoordinate = axis.getHomeCoordinate();
+            }
+        }
+        // Compensate non-squareness factor: 
+        // We are homing to the native controller's non-square coordinate system, this does not
+        // match OpenPNP's square coordinate system, if the controller's Y home is non-zero. 
+        // The two coordinate systems coincide at Y0 only, see the non-squareness 
+        // transformation. It is not a good idea to change the transformation i.e. for the coordinate 
+        // systems to coincide at Y home, as this would break coordinates captured before this change. 
+        // In order to home the square internal coordinate system we need to account for the 
+        // non-squareness X offset here.  
+        // NOTE this changes nothing in the behavior or the coordinate system of the machine. It just
+        // sets the internal X coordinate correctly immediately after homing, so we can capture the 
+        // home location correctly. Without this compensation the discrepancy between internal and 
+        // machines coordinates was resolved with the first move, as it is done in absolute mode. 
+        double xHomeCoordinateSquare = xHomeCoordinateNonSquare - nonSquarenessFactor*yHomeCoordinate;
+        
+        for (Axis axis : axes) {
+            if (axis == xAxis) {
+            	// for X use the coordinate adjusted for non-squareness.
+            	axis.setCoordinate(xHomeCoordinateSquare);
+            }
+            else {
+            	// otherwise just use the standard coordinate.
+            	axis.setCoordinate(axis.getHomeCoordinate());
+            }
         }
 
         for (ReferenceDriver driver : subDrivers) {
@@ -309,21 +368,16 @@ public class GcodeDriver extends AbstractSerialPortDriver implements Named, Runn
 
                 // homeOffset contains the offset, but we are not really concerned with that,
                 // we just reset X,Y back to the home-coordinate at this point.
-                double xHomeCoordinate = 0;
-                double yHomeCoordinate = 0;
-                for (Axis axis : axes) {
-                    if (axis.getType() == Axis.Type.X) {
-                        axis.setCoordinate(axis.getHomeCoordinate());
-                        xHomeCoordinate = axis.getHomeCoordinate();
-                    }
-                    if (axis.getType() == Axis.Type.Y) {
-                        axis.setCoordinate(axis.getHomeCoordinate());
-                        yHomeCoordinate = axis.getHomeCoordinate();
-                    }
+                if (xAxis != null) { 
+                	xAxis.setCoordinate(xHomeCoordinateSquare);
                 }
-
+                if (yAxis != null) { 
+                	yAxis.setCoordinate(yHomeCoordinate);
+                }
+                
                 String g92command = getCommand(null, CommandType.POST_VISION_HOME_COMMAND);
-                g92command = substituteVariable(g92command, "X", xHomeCoordinate);
+                // make sure to use the native non-square X home coordinate.
+                g92command = substituteVariable(g92command, "X", xHomeCoordinateNonSquare);
                 g92command = substituteVariable(g92command, "Y", yHomeCoordinate);
                 sendGcode(g92command, -1);
             }
