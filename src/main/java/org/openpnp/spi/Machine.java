@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 
+import org.openpnp.machine.reference.ReferenceDriver;
 import org.openpnp.model.Location;
 
 import com.google.common.util.concurrent.FutureCallback;
@@ -165,6 +166,8 @@ public interface Machine extends WizardConfigurable, PropertySheetHolder, Closea
     public <T> Future<T> submit(Callable<T> callable);
 
     public <T> Future<T> submit(final Callable<T> callable, final FutureCallback<T> callback);
+
+    public ReferenceDriver getDriver();
 
     public boolean getHomeAfterEnabled();
 

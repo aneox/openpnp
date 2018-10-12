@@ -233,6 +233,12 @@ public class OpenBuildsDriver extends AbstractReferenceDriver implements Runnabl
         }
     }
 
+    public void moveTo(ReferenceHeadMountable hm, Location location, double speed, boolean skipBacklashCompensation)
+            throws Exception {
+
+        moveTo(hm, location, speed, false);
+    }
+
     /**
      * Returns 0 or 1 for either the first or second Nozzle.
      * 
