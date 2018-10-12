@@ -435,12 +435,20 @@ public class ReferencePnpJobProcessor extends AbstractPnpJobProcessor {
         List<JobPlacement> jobPlacements;
 
         if (this.jobOrder.equals(ORDER_JOB_PART)) {
+<<<<<<< HEAD
+	        	// Get the list of unfinished placements and sort them by part.
+=======
         	// Get the list of unfinished placements and sort them by part.
+>>>>>>> forMerge2
 	        	jobPlacements = getPendingJobPlacements().stream()
 	        			.sorted(Comparator.comparing(JobPlacement::getPartId))
 	        			.collect(Collectors.toList());
         } else {
+<<<<<<< HEAD
+	        	// Get the list of unfinished placements and sort them by part height.
+=======
         	// Get the list of unfinished placements and sort them by part height.
+>>>>>>> forMerge2
 	        	jobPlacements = getPendingJobPlacements().stream()
 	        			.sorted(Comparator.comparing(JobPlacement::getPartHeight))
 	        			.collect(Collectors.toList());
