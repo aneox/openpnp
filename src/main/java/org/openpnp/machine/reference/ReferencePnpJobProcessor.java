@@ -723,7 +723,7 @@ public class ReferencePnpJobProcessor extends AbstractPnpJobProcessor {
             
             place(nozzle, part, placement, placementLocation);
             
-            checkPartOff(nozzle, part);
+//            checkPartOff(nozzle, part);
             
             // Mark the placement as finished
             jobPlacement.setStatus(Status.Complete);
