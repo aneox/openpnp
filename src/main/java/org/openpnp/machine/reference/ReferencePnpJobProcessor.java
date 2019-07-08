@@ -731,6 +731,13 @@ public class ReferencePnpJobProcessor extends AbstractPnpJobProcessor {
             // Mark the placement as "placed"
             boardLocation.setPlaced(jobPlacement.getPlacement().getId(), true);
             
+            try {
+				Configuration.get().saveJob(job, job.getFile());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
             totalPartsPlaced++;
             
             scriptComplete(plannedPlacement, placementLocation);

@@ -122,7 +122,7 @@ public class Utils2D {
                     p.getX(), 
                     p.getY(), 
                     boardLocation.getZ(), 
-                    angle + placementLocation.getRotation());
+                    angle + placementLocation.getRotation() - (bl.getSide() == Side.Bottom ? 90 : 0));
             l = l.convertToUnits(placementUnits);
             return l;
         }
