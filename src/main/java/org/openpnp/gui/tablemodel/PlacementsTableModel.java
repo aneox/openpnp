@@ -97,7 +97,8 @@ public class PlacementsTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex != 0 && columnIndex != 9;
+//        return columnIndex != 0 && columnIndex != 9;
+    		return columnIndex != 9;
     }
 
     @Override

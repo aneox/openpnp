@@ -528,34 +528,40 @@ public class ReferencePnpJobProcessor extends AbstractPnpJobProcessor {
              * then we assume we are carrying a part, so we want to make sure to discard it
              * if there is a problem.   
              */
-            try {
-                postPick(feeder, nozzle);
-                
-                checkPartOn(nozzle);
-            }
-            catch (JobProcessorException e) {
-                if (retryIncrementAndGet(plannedPlacement) >= feeder.getPickRetryCount()) {
-                    // Clear the retry count because we're about to show the error. If the user
-                    // decides to try again we want to do the full retry cycle.
-                    retries.remove(plannedPlacement);
-                    throw e;
-                }
-                else {
-                    discard(nozzle);
-                    return this;
-                }
-            }
             
-            return this;
+            
+			for (int i = 0; i < feeder.getPickRetryCount(); i++) {
+				try {
+					postPick(feeder, nozzle);
+					checkPartOn(nozzle);
+				} 
+				catch (JobProcessorException e) {
+					if (retryIncrementAndGet(plannedPlacement) >= feeder.getPickRetryCount()) {
+						// Clear the retry count because we're about to show the error. If the user
+						// decides to try again we want to do the full retry cycle.
+						retries.remove(plannedPlacement);						
+						throw e;
+					} else {
+						discard(nozzle);
+						
+			            feed(feeder, nozzle);
+			            
+			            pick(nozzle, feeder, placement, part);
+					}
+				}
+			}
+			
+			return this;
         }
         
         private int retryIncrementAndGet(PlannedPlacement plannedPlacement) {
-            Integer retry = retries.get(plannedPlacement);
+            Integer retry = retries.get(plannedPlacement);            
             if (retry == null) {
                 retry = 0;
             }
             retry++;
             retries.put(plannedPlacement, retry);
+            Logger.debug("TEST retry:" + retry);
             return retry;
         }
         
@@ -645,6 +651,8 @@ public class ReferencePnpJobProcessor extends AbstractPnpJobProcessor {
                 Logger.debug("Not aligning {} as no compatible enabled aligners defined", part);
                 return this;
             }
+            
+            Logger.debug("TEST align");
 
             align(plannedPlacement, partAlignment);
             
@@ -1078,15 +1086,16 @@ public class ReferencePnpJobProcessor extends AbstractPnpJobProcessor {
             }
             catch (JobProcessorException e) {
                 switch (plannedPlacement.jobPlacement.getPlacement().getErrorHandling()) {
-                    case Alert:
-                        throw e;
-                    case Defer:
-                        plannedPlacement.jobPlacement.setError(e);
-                        return this;
-                    default:
-                        throw new Error("Unhandled Error Handling case " + plannedPlacement.jobPlacement.getPlacement().getErrorHandling());
-                }
-            }
+				case Alert:
+					throw e;
+				case Defer:
+					plannedPlacement.jobPlacement.setError(e);
+					return this;
+				default:
+					throw new Error("Unhandled Error Handling case "
+							+ plannedPlacement.jobPlacement.getPlacement().getErrorHandling());
+				}
+			}
         }
     }
     
