@@ -534,6 +534,7 @@ public class ReferencePnpJobProcessor extends AbstractPnpJobProcessor {
 				try {
 					postPick(feeder, nozzle);
 					checkPartOn(nozzle);
+					break;
 				} 
 				catch (JobProcessorException e) {
 					if (retryIncrementAndGet(plannedPlacement) >= feeder.getPickRetryCount()) {
@@ -548,7 +549,7 @@ public class ReferencePnpJobProcessor extends AbstractPnpJobProcessor {
 			            
 			            pick(nozzle, feeder, placement, part);
 					}
-				}
+				}				
 			}
 			
 			return this;
