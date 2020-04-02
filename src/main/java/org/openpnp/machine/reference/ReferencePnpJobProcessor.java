@@ -563,24 +563,31 @@ public class ReferencePnpJobProcessor extends AbstractPnpJobProcessor {
              * then we assume we are carrying a part, so we want to make sure to discard it
              * if there is a problem.   
              */
-            try {
-                postPick(feeder, nozzle);
-                
-                checkPartOn(nozzle);
-            }
-            catch (JobProcessorException e) {
-                if (retryIncrementAndGet(plannedPlacement) >= feeder.getPickRetryCount()) {
-                    // Clear the retry count because we're about to show the error. If the user
-                    // decides to try again we want to do the full retry cycle.
-                    retries.remove(plannedPlacement);
-                    throw e;
+
+
+            for (int i = 0; i < feeder.getPickRetryCount(); i++) {
+                try {
+                    postPick(feeder, nozzle);
+                    checkPartOn(nozzle);
+                    break;
                 }
-                else {
-                    discard(nozzle);
-                    return this;
+                catch (JobProcessorException e) {
+                    if (retryIncrementAndGet(plannedPlacement) >= feeder.getPickRetryCount()) {
+                        // Clear the retry count because we're about to show the error. If the user
+                        // decides to try again we want to do the full retry cycle.
+                        retries.remove(plannedPlacement);
+                        throw e;
+                    }
+                    else {
+                        discard(nozzle);
+
+                        feed(feeder, nozzle);
+
+                        pick(nozzle, feeder, placement, part);
+                    }
                 }
             }
-            
+
             return this;
         }
         
